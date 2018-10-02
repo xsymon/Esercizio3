@@ -4,34 +4,22 @@
         "lat":"45.3985562",
         "lng":"9.1458339",
         "title":"Sede Assago",
+        "description":"Descrizione di Assago"
     },
 
     {
         "Name":"Parma",
         "lat":"44.7486823",
         "lng":"10.2009757",
-        "title":"Sede Parma"
+        "title":"Sede Parma",
+        "description":"Descrizione di Parma"
     },
 
     {
         "Name":"Padova",
         "lat":"45.4086681",
         "lng":"11.9119778",
-        "title":"Sede Padova"
-    },
-
-    {
-        "Name":"Roma",
-        "lat":"41.83542",
-        "lng":"12.4985713",
-        "title":"Sede Roma"
-    },
-
-    
-    {
-        "Name":"Asti",
-        "lat":"44.8894267",
-        "lng":"8.2093538",
-        "title":"Sede Asti"
+        "title":"Sede Padova",
+        "description":"Descrizione di Padova"
     }
 ]
