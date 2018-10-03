@@ -1,26 +1,99 @@
-jsonObj = $.getJSON("https://api.myjson.com/bins/61hyo",(jsonFile)=>{
-        jsonObj = jsonFile;
-});
-$('document').ready(()=>{
+//obj restService's definition
+function restService(jsonURL){
+        this.jsonURL = jsonURL;
+        let jsonObj = $.getJSON(jsonURL,(jsonFile)=>{
+                jsonObj = jsonFile;
+        });
+        return{
+                setURL : function(jsonURL){
+                        this.jsonURL = jsonURL;
+                },
+                getJsonObj : function(){
+                        return jsonObj;
+                }
+        }
+}
+
+//obj mapHandler definition
+function mapHandler(div,zoom,lat,lng,width,height){
+        this.div = div;
+        this.zoom = zoom;
+        this.lat = lat;
+        this.lng = lng;
+        this.width = width;
+        this.height = height;
+        var map;
+
+        return{
+                //Getter Methods
+                getDiv : function(){
+                        return div;
+                },
+                getZoom : function(){
+                        return zoom;
+                },
+                getLat : function(){
+                        return lat;
+                },
+                getLng : function(){
+                        return lng;
+                },
+                getWidth : function(){
+                        return Width;
+                },
+                getHeight : function(){
+                        return height;
+                },
+                //Setter Methods
+                setDiv:function(div){
+                        this.div = div;
+                },
+                setZoom : function(zoom){
+                        this.zoom = zoom;
+                },
+                setLat : function(lat){
+                        this.lat = lat;
+                },
+                setLng : function(lng){
+                        this.lng = lng;
+                },
+                setWidth : function(width){
+                        this.width = width;
+                },
+                setHeight : function(){
+                        this.height = height;
+                },
+                //Other methods
+                createMap : function(){
+                        map = new GMaps({
+                                div:div,
+                                lat:lat,
+                                lng:lng,
+                                zoom: zoom,
+                                width: width,
+                                height: height 
+                        });
+                        return map;
+                },
+                deleteMap : function(){
+                        map = null;
+                }
+        }
+}
 
         const $infobox = $('.col-md-6.info-box');
         const $listbox = $(".col-md-6.list-box");
         const div = "<div class='overlay'></div>";
-        let map = new GMaps({
-                div:'#map',
-                lat:'42.504154',
-                lng:'12.646361',
-                zoom: 5,
-                width: '100%',
-                height:'50%'
-                
-        });
+        handler = new mapHandler('#map',5,'42.504154','12.646361','100%','50%');
+        map = handler.createMap();
+        rest = new restService("https://api.myjson.com/bins/61hyo");
+        jsonObj = rest.getJsonObj();
+
         if(jsonObj.readyState != 4){
                 setTimeout(()=>{
                         for(var i=0;i<3;i++){
                                 element = jsonObj[i];
                                 $listbox.html($listbox.html()+"</br><button type='button' id='"+element.Name+"' class='btn btn-default'>"+element.Name+"</button>");
-                                //$listbox.html($listbox.html()+"</br><a href='#' id='"+element.Name+"'>"+element.title+"</a>");
                         }
 
                         $("#Assago").on('focusin',()=>{
@@ -74,6 +147,3 @@ $('document').ready(()=>{
 
                 },1000);
         }
-
-        
-});
