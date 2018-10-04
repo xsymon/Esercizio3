@@ -34,8 +34,12 @@ var ButtonHandler = function(){
         function listBtn(array){
                 for(var i=0;i<array.length;i++){
                         element = array[i];
-                        //$listbox.append("</br><button type='button' id='"+element.Name+"' class='btn btn-default btn-gmaps'>"+element.Name+"</button>");
-                        $hiddenBtn.clone().attr("id",element.Name).appendTo($listbox).show().text(element.Name);
+                        //$hiddenBtn.clone().attr("id",element.Name).appendTo($listbox).show().text(element.Name);
+                        $btn = $hiddenBtn.clone().attr('id',element.Name).appendTo($listbox).show();
+                        rendered = Mustache.render($btn.html(),{
+                                nome : element.Name
+                        });
+                        $btn.html(rendered);
                         $("#" + element.Name).data("name", element.Name);
                         $("#" + element.Name).data("lat", element.lat);
                         $("#" + element.Name).data("lng", element.lng);
