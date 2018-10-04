@@ -10,7 +10,7 @@ var RestModule = function () {
         }
 }();
  
-var mapHandler = function (){
+var MapHandler = function (){
  
         function createMap(container,latitude,longitude,zoomIn,width,height){
                 map = new GMaps({
@@ -24,21 +24,22 @@ var mapHandler = function (){
                 return map;
         };
  
-        function deleteMap(map){
-                map = null;
-        }
- 
         return{
-                createMap : createMap,
-                deleteMap : deleteMap  
+                createMap : createMap
         }
 }();
- 
-const $listbox = $(".col-md-6.list-box");
- 
+ //Const declaration
+const $listbox = $(".col-md-6.list-box")
+        divId = "#map",
+        lat = "42.7178439",
+        lng = "11.192269",
+        zoom = 5,
+        width = "100%",
+        height = "50%";
+
 RestModule.callRestService(function(jsonObj){
-        map = mapHandler.createMap("#map","42.7178439","11.192269",5,"100%","50%");
-        for(var i=0;i<3;i++){
+        map = MapHandler.createMap(divId,lat,lng,zoom,width,height);
+        for(var i=0;i<jsonObj.length;i++){
                 element = jsonObj[i];
                 $listbox.append("</br><button type='button' id='"+element.Name+"' class='btn btn-default btn-gmaps'>"+element.Name+"</button>");
                 
@@ -49,10 +50,12 @@ RestModule.callRestService(function(jsonObj){
         } 
 
         $(".btn").on('click',function(){
-                //map.removeMarkers();
+                map.removeMarkers();
                 map.removeOverlays();  
-                // TODO - da verificare gestione marker
-                // map.addMarker(element); 
+                map.addMarker({
+                        lat: $(this).data("lat"),
+                        lng: $(this).data("lng")    
+                }); 
                 map.drawOverlay({
                         lat: $(this).data("lat"),
                         lng: $(this).data("lng"),
@@ -60,7 +63,7 @@ RestModule.callRestService(function(jsonObj){
                         verticalAlign: 'bottom'
                 });
         }).on('focusout',()=>{
-                //map.removeMarkers();
+                map.removeMarkers();
                 map.removeOverlays();
         });         
 });       
